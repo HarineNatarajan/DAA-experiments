@@ -1,0 +1,60 @@
+import java.util.Scanner;
+
+public class NQueens {
+    int n;
+    int[] cols;
+
+    public void solveNQueens(int n) {
+        this.n = n;
+        cols = new int[n];
+        solve(0);
+    }
+
+    public void solve(int row) {
+        if (row == n) {
+            printSolution();
+            return;
+        }
+
+        for (int i = 0; i < n; i++) {
+            cols[row] = i;
+            if (isValid(row)) {
+                solve(row + 1);
+            }
+        }
+    }
+
+    public boolean isValid(int row) {
+        for (int i = 0; i < row; i++) {
+            if (cols[row] == cols[i] || Math.abs(cols[row] - cols[i]) == row - i) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void printSolution() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (cols[i] == j) {
+                    System.out.print("Q ");
+                } else {
+                    System.out.print(". ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of queens (N): ");
+        int N = scanner.nextInt();
+        scanner.close();
+
+        NQueens nQueens = new NQueens();
+        nQueens.solveNQueens(N);
+    }
+}
+
