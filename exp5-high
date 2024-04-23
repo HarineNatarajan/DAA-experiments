@@ -1,0 +1,56 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class NQueensBacktracking {
+    private static int N;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of queens (N): ");
+        N = scanner.nextInt();
+        scanner.close();
+
+        int[] queens = new int[N];
+        Arrays.fill(queens, -1);
+
+        int row = 0;
+        while (row >= 0) {
+            queens[row]++;
+            if (queens[row] == N) {
+                queens[row] = -1;
+                row--;
+            } else {
+                if (isValid(queens, row)) {
+                    if (row == N - 1) {
+                        printSolution(queens);
+                    } else {
+                        row++;
+                    }
+                }
+            }
+        }
+    }
+
+    private static boolean isValid(int[] queens, int row) {
+        for (int i = 0; i < row; i++) {
+            if (queens[i] == queens[row] || Math.abs(queens[i] - queens[row]) == row - i) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void printSolution(int[] queens) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (j == queens[i]) {
+                    System.out.print("Q ");
+                } else {
+                    System.out.print("+ ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+}
